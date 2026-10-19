@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+}
+.card {
+  max-width: 520px;
+  margin: 48px auto;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+}
+h1 { font-size: 20px; margin: 0 0 4px; }
+h2 { font-size: 13px; font-weight: 500; color: #6b7280; margin: 24px 0 8px; }
+.subtitle { color: #6b7280; font-size: 14px; margin: 0 0 16px; }
+.row { display: flex; gap: 8px; }
+input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+}
+button {
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+button:disabled { background: #93c5fd; cursor: default; }
+.note { color: #6b7280; font-size: 13px; }
+.error { color: #b91c1c; font-size: 14px; }
+.list { list-style: none; padding: 0; margin: 0; }
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+.rank {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1d4ed8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+}
+.title { flex: 1; font-size: 14px; }
+.score { color: #6b7280; font-size: 13px; }

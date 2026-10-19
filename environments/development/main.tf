@@ -72,3 +72,10 @@ module "container_app" {
   storage_account_name = module.storage.account_name
   image                = "${module.registry.login_server}/recommender-api:${var.image_tag}"
 }
+
+module "static_web_app" {
+  source              = "../../modules/static-web-app"
+  name                = "swa-${var.project}-${var.environment}"
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
+}
