@@ -87,5 +87,5 @@ module "github_oidc" {
   resource_group_id   = module.resource_group.id
   location            = module.resource_group.location
   acr_id              = module.registry.id
-  github_repo         = "DocR666/cloud-ml-recommender"
+  github_repo         = "DocR666@173650932/cloud-ml-recommender@1410461728"
 }
