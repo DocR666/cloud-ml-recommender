@@ -20,6 +20,9 @@ resource "azurerm_container_app_environment" "this" {
   location                   = var.location
   resource_group_name        = var.resource_group_name
   log_analytics_workspace_id = azurerm_log_analytics_workspace.this.id
+  lifecycle {
+    ignore_changes = [workload_profile]
+  }
 }
 
 # The app's own identity: no passwords or keys anywhere
@@ -89,7 +92,15 @@ resource "azurerm_container_app" "this" {
   }
 
   lifecycle {
-    ignore_changes = [template[0].container[0].image]
+    ignore_changes = [
+      template[0].container[0].image,
+      template[0].http_scale_rule,
+      template[0].cooldown_period_in_seconds,
+      template[0].polling_interval_in_seconds,
+      workload_profile_name,
+      ingress[0].transport,
+      ingress[0].traffic_weight,
+    ]
   }
 
   ingress {
