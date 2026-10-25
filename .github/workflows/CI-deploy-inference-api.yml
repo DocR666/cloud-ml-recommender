@@ -1,0 +1,50 @@
+name: Deploy inference API
+
+on:
+  push:
+    branches: [main]
+    paths: ["inference-api/**"]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ACR_NAME: acrcloudmlhd6sw
+  RESOURCE_GROUP: rg-cloud-ml-dev
+  APP_NAME: ca-cloud-ml-dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push image
+        run: |
+          az acr login --name $ACR_NAME
+          IMAGE=$ACR_NAME.azurecr.io/recommender-api:${GITHUB_SHA::7}
+          docker build -t $IMAGE inference-api
+          docker push $IMAGE
+          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
+
+      - name: Update Container App
+        run: |
+          az extension add --name containerapp --upgrade
+          az containerapp update --name $APP_NAME --resource-group $RESOURCE_GROUP --image $IMAGE
+
+      - name: Smoke test
+        run: |
+          URL=$(az containerapp show --name $APP_NAME --resource-group $RESOURCE_GROUP --query properties.configuration.ingress.fqdn -o tsv)
+          for i in $(seq 1 10); do
+            curl -fsS "https://$URL/health" && exit 0
+            sleep 15
+          done
+          exit 1

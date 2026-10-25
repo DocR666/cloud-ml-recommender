@@ -10,3 +10,6 @@ output "swa_deployment_token" {
   value     = module.static_web_app.api_key
   sensitive = true
 }
+
+output "github_client_id" { value = module.github_oidc.client_id }
+output "tenant_id" { value = data.azurerm_client_config.current.tenant_id }

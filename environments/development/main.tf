@@ -79,3 +79,13 @@ module "static_web_app" {
   resource_group_name = module.resource_group.name
   location            = module.resource_group.location
 }
+
+module "github_oidc" {
+  source              = "../../modules/github-oidc"
+  name                = "${var.project}-${var.environment}"
+  resource_group_name = module.resource_group.name
+  resource_group_id   = module.resource_group.id
+  location            = module.resource_group.location
+  acr_id              = module.registry.id
+  github_repo         = "DocR666/cloud-ml-recommender"
+}
